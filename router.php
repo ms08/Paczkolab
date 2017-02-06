@@ -5,9 +5,16 @@ include 'config/connect.php';
 var_dump($_SERVER['REQUEST_METHOD']);
 var_dump($_SERVER['REQUEST_URI']);
 
-if($_SERVER['REQUEST_METHOD']==GET)
+if($_SERVER['REQUEST_METHOD']=='GET')
 {
-  
+  if($_SERVER['REQUEST_URI']=='/kurs/Nadawanie%20Paczek/router.php/user/')
+  {
+    $newUser = new User();
+  }
+  else
+  {
+    echo "nie chodzi o usera";
+  }
 }
 
  ?>
