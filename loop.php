@@ -79,3 +79,23 @@ for ($i=0; $i < 5; $i++)
 
     echo "<br>";
 }
+
+
+
+// <?php
+//
+// $rows = 22;
+// $cols = $rows*2-1;
+//
+// for ($i=0; $i < $rows; $i++) {
+//   for ($j=0; $j < $cols; $j++) {
+//     if ($j > $cols-$rows+$i || $j < $cols-$rows-$i) {
+//       echo "_ ";
+//     }else{
+//       echo "* ";
+//     }
+//   }
+//   echo "<br />";
+// }
+//
+// ?>
