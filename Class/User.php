@@ -85,14 +85,8 @@ class User
 
         return true;
     }
-
 }
+//todo tests get and set function
 
-$user1 = new User();
-var_dump($user1);
-$user2 = new User;
-$user2->setName('marcin');
-$user2->setHashedPassword('sddsfsdf');
-var_dump($user2);
 
  ?>
