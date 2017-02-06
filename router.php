@@ -7,9 +7,10 @@ var_dump($_SERVER['REQUEST_URI']);
 
 if($_SERVER['REQUEST_METHOD']=='GET')
 {
-  if($_SERVER['REQUEST_URI']=='/kurs/Nadawanie%20Paczek/router.php/user/')
+  if($_SERVER['REQUEST_URI']=='/kurs/Nadawanie%20Paczek/router.php/User.php')
   {
     $newUser = new User();
+    echo "Chodzi o Usera";
   }
   else
   {
@@ -17,4 +18,9 @@ if($_SERVER['REQUEST_METHOD']=='GET')
   }
 }
 
+
+
+// do domu testy setterow i getterow napisac funkcje ktora przetestuje klase user
+// utworzyc prawidlowe polaczenie z baza
+// dopisac analogiczne klasy dla adresu paczki i rozmiaru NIE ROBIMY RELACJI
  ?>

@@ -86,10 +86,8 @@ class User
 
         return true;
     }
-
-
 }
-//todo tests get and set function
+
 
 
  ?>
