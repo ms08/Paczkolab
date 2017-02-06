@@ -9,6 +9,7 @@ class User
   private $surname;
   private $credits;
   private $hashedPassword;
+  static public $connection;
 
   public function __construct()
   {
@@ -85,6 +86,8 @@ class User
 
         return true;
     }
+
+
 }
 //todo tests get and set function
 
