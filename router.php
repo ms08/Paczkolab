@@ -12,7 +12,7 @@ include 'config/connect.php';
 $request = ' ';
 $arrayRequest=[];
 $requestClass=' ';
-
+$requestParam=null;
 
 
 
@@ -22,28 +22,74 @@ $request = $_SERVER['REQUEST_URI'];
 $arrayRequest= explode('/', $request);
 
 
-if(isset($arrayRequest[4]))
+
+
+if (isset($arrayRequest[4]))
+{
+  $requestClass=$arrayRequest[4];
+}
+else {
+  echo "nie podales nazwy klasy";
+}
+
+
+if(isset($arrayRequest[5]))
   {
-    $requestClass=$arrayRequest[4];
+    $requestParam = intval($arrayRequest[5]);
   }
   else
   {
-    echo "nie podałeś nazwy klasy";
-    die();
+    echo "nie podałeś parametru";
+
   }
 
-var_dump($requestClass);
+
+  // $requestParam = intval($arrayRequest[5]);
+  // $requestParam = $arrayRequest[3];
+
+
+// pobieram parametr pod ktorym jest id
+// var_dump($arrayRequest);
+var_dump($requestParam);
+
+
+
+// var_dump($requestClass);
+
+
 
 if($_SERVER['REQUEST_METHOD']=='GET')
 {
-  if($_SERVER['REQUEST_URI']=='/kurs/Nadawanie%20Paczek/router.php/User.php')
+  if($requestClass=='user')
   {
+    // poszukac lepszego rozwiazania
+    if($requestParam>0)
+    {
+      // wyswietl wszystkich userow
+      $oUser=new User();
+      $userData = $oUser->loadFromDB($requestParam);
+      var_dump($userData);
+    }
+    if($requestParam == null)
+    {
+      $allUsers = User::loadAllFromDB();
+      var_dump($allUsers);
+      print_r(json_encode($allUsers));
+    }
+    else
+    {
+      // wyswietl wszystkie
+    }
+
 
   }
   else
   {
-
+    echo "blad router.php";
   }
+}
+else {
+  echo "blad322222";
 }
 
 

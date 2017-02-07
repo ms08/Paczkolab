@@ -11,6 +11,6 @@
   // $connection ='fakeconnection';
   // przekazuje stringa aby sprawdzic czy dziala
   User::$connection = $connection;
-  var_dump($connection);
+  // var_dump($connection);
 
  ?>

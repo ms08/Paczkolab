@@ -90,20 +90,20 @@ class User
 
     public function loadFromDB($idUser)
     {
-      $sql = 'SELECT * FROM users WHERE id= $idUser';
+      $sql = "SELECT * FROM users WHERE id=$idUser";
 
-      if($result = Self::$connection->query(sql))
+      if($result = Self::$connection->query($sql))
       {
-        $row=$result->fetch_assoc();
+        $row=$result->fetch(PDO::FETCH_ASSOC);
 
         $this->id = $row['id'];
-        $this->name=$row['name'];
-        $this->surname=$row['surname'];
-        $this->credits=$row['credits'];
-        $this->hashedPassword=$row['hashedPassword'];
-        $this->adressId=$row['adress_id'];
+        $this->name = $row['name'];
+        $this->surname = $row['surname'];
+        $this->credits = $row['credits'];
+        $this->hashedPassword = $row['pass'];
+        $this->adressId = $row['address_id'];
 
-        echo "asdsdssaddas";
+
         return $row;
 
         //jest row a nie true poniewaz ze wzgledu na uzycie widoku, w razie czego to i tak ma wartość true
@@ -111,6 +111,32 @@ class User
       else
       {
         echo "brak";
+        return false;
+      }
+    }
+
+
+    static function loadAllFromDB()
+    {
+      $sql = "SELECT * FROM users";
+
+      if($result = Self::$connection->query($sql))
+      {
+        $row=[];
+
+
+        foreach ($result as $key => $value)
+        {
+          $row[$key]=$value;
+          // var_dump($value);
+        }
+
+        return $row;
+
+        //jest row a nie true poniewaz ze wzgledu na uzycie widoku, w razie czego to i tak ma wartość true
+      }
+      else
+      {
         return false;
       }
     }
