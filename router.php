@@ -50,7 +50,7 @@ if(isset($arrayRequest[5]))
 
 // pobieram parametr pod ktorym jest id
 // var_dump($arrayRequest);
-var_dump($requestParam);
+// var_dump($requestParam);
 
 
 
@@ -68,12 +68,12 @@ if($_SERVER['REQUEST_METHOD']=='GET')
       // wyswietl wszystkich userow
       $oUser=new User();
       $userData = $oUser->loadFromDB($requestParam);
-      var_dump($userData);
+      // var_dump($userData);
     }
     if($requestParam == null)
     {
       $allUsers = User::loadAllFromDB();
-      var_dump($allUsers);
+      // var_dump($allUsers);
       print_r(json_encode($allUsers));
     }
     else
