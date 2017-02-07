@@ -4,7 +4,7 @@
 class User
 {
   private $id;
-  private $adress;
+  private $adressId;
   private $name;
   private $surname;
   private $credits;
@@ -14,7 +14,7 @@ class User
   public function __construct()
   {
     $this->id = -1;
-    $this->adress = '';
+    $this->adressId = null;
     $this->name = '';
     $this->surname = '';
     $this->credits= null;
@@ -26,14 +26,14 @@ class User
         return $this->id;
     }
 
-    public function getAdress()
+    public function getAdressId()
     {
-        return $this->adress;
+        return $this->adressIs;
     }
 
-    public function setAdress($adress)
+    public function setAdressId($adressId)
     {
-        $this->adress = $adress;
+        $this->adress = $adressId;
 
         return true;
     }
@@ -86,7 +86,37 @@ class User
 
         return true;
     }
+//funkcja ktora wybiera jedna komorke
+
+    public function loadFromDB($idUser)
+    {
+      $sql = 'SELECT * FROM users WHERE id= $idUser';
+
+      if($result = Self::$connection->query(sql))
+      {
+        $row=$result->fetch_assoc();
+
+        $this->id = $row['id'];
+        $this->name=$row['name'];
+        $this->surname=$row['surname'];
+        $this->credits=$row['credits'];
+        $this->hashedPassword=$row['hashedPassword'];
+        $this->adressId=$row['adress_id'];
+
+        echo "asdsdssaddas";
+        return $row;
+
+        //jest row a nie true poniewaz ze wzgledu na uzycie widoku, w razie czego to i tak ma wartość true
+      }
+      else
+      {
+        echo "brak";
+        return false;
+      }
+    }
 }
+
+
 
 
 
