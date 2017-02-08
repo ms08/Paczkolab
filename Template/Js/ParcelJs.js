@@ -3,7 +3,7 @@ jQuery(document).ready(function(){
  function loadUserView() {
    jQuery.ajax({
      type: 'GET',
-     url: '../../router.php/user/',
+     url: '../../router.php/parcel/',
      contentType:'application/json',
      dataType:'json',
      success: function (response) {
@@ -27,7 +27,7 @@ jQuery(document).ready(function(){
           tdId = document.createElement("td");
           tduser = document.createElement("td");
           tdsize = document.createElement("td");
-      
+
 
           tdId.className="id";
           tduser.className="user";
