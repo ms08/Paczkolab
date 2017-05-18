@@ -1,149 +1,162 @@
 <?php
-// class reprezent one user
 
-class User
-{
-  private $id;
-  private $adressId;
-  private $name;
-  private $surname;
-  private $credits;
-  private $hashedPassword;
-  static public $connection;
 
-  public function __construct()
-  {
-    $this->id = -1;
-    $this->adressId = null;
-    $this->name = '';
-    $this->surname = '';
-    $this->credits= null;
-    $this->hashedPassword='';
-  }
-
-    public function getId()
-    {
+class User extends DataBase implements Action{
+    
+    private $id;
+    private $address_id;
+    private $name;
+    private $surname;
+    private $credits;
+    private $pass;
+    
+    public function __construct() {
+        $this->id = -1;
+    }
+    
+    public function getId(){
         return $this->id;
     }
 
-    public function getAdressId()
-    {
-        return $this->adressIs;
+    public function setPass($pass){
+        $hashed_pass = password_hash($pass, PASSWORD_BCRYPT);
+        $this->pass = $hashed_pass;
     }
-
-    public function setAdressId($adressId)
-    {
-        $this->adress = $adressId;
-
-        return true;
+    
+    public function getPass(){
+        return $this->pass;
     }
-
-    public function getName()
-    {
+    
+     public function getName(){
         return $this->name;
     }
-
-    public function setName($name)
-    {
+    
+    public function setName($name){
         $this->name = $name;
-
-        return true;
     }
-
-    public function getSurname()
-    {
+    
+    public function getSurname(){
         return $this->surname;
     }
-
-    public function setSurname($surname)
-    {
+    
+    public function setSurname($surname){
         $this->surname = $surname;
-
-        return true;
     }
-
-    public function getCredits()
-    {
-        return $this->credits;
+    
+    public function getCredits(){
+        return $this->surname;
     }
-
-    public function setCredits($credits)
-    {
-        $this->credits = $credits;
-
-        return true;
+    
+    public function setCredits($cre){
+        $this->credits = $cre;
     }
-
-    public function getHashedPassword()
-    {
-        return $this->hashedPassword;
+    
+     public function getAddressId(){
+        return $this->surname;
     }
-
-    public function setHashedPassword($password)
-    {
-        $hashedPassword=password_hash($password, PASSWORD_BCRYPT);
-        $this->password = $hashedPassword;
-
-        return true;
+    
+    public function setAddressId($add){
+        $this->address_id = $add;
     }
-//funkcja ktora wybiera jedna komorke
+    
+    public function loadFromDB($id)    {
+        
+        $safe_id = Self::$conn->real_escape_string($id);
+        $sql = "SELECT * FROM user WHERE id = $safe_id";
 
-    public function loadFromDB($idUser)
-    {
-      $sql = "SELECT * FROM users WHERE id=$idUser";
+        if ($result = Self::$conn->query($sql)) {
+            $row = $result->fetch_assoc();
 
-      if($result = Self::$connection->query($sql))
-      {
-        $row=$result->fetch(PDO::FETCH_ASSOC);
+            $this->id = $row['id'];
+            $this->name = $row['name'];
+            $this->surname = $row['surname'];
+            $this->credits = $row['credits'];
+            $this->pass = $row['pass'];
+            $this->address_id = $row['address_id'];
 
-        $this->id = $row['id'];
-        $this->name = $row['name'];
-        $this->surname = $row['surname'];
-        $this->credits = $row['credits'];
-        $this->hashedPassword = $row['pass'];
-        $this->adressId = $row['address_id'];
-
-
-        return $row;
-
-        //jest row a nie true poniewaz ze wzgledu na uzycie widoku, w razie czego to i tak ma wartość true
-      }
-      else
-      {
-        echo "brak";
-        return false;
-      }
-    }
-
-
-    static function loadAllFromDB()
-    {
-      $sql = "SELECT * FROM users";
-
-      if($result = Self::$connection->query($sql))
-      {
-        $row=[];
-
-
-        foreach ($result as $key => $value)
-        {
-          $row[$key]=$value;
-          // var_dump($value);
+            return $row;
+            
+        } else {
+            
+            return false;
+            
         }
-
-        return $row;
-
-        //jest row a nie true poniewaz ze wzgledu na uzycie widoku, w razie czego to i tak ma wartość true
-      }
-      else
-      {
-        return false;
-      }
     }
+    
+    
+    public function saveToDB()
+    {
+        $pass = password_hash($pass, PASSWORD_BCRYPT);
+        
+        $sql = "INSERT INTO user(address_id, name, surname, credits, pass) VALUES ('$this->address_id', '$this->name', '$this->surname', '$this->credits', '$this->pass')";
+        
+        if ($result = Self::$conn->query($sql)) {
+            $this->id = Self::$conn->insert_id;
+            $this->name = $name;
+            $this->surname = $surname;
+            $this->credits = $credits;
+            $this->pass = $pass;
+
+            return $this;
+            
+        } else {
+            
+            return false;
+            
+        }
+    }
+
+    public function update()
+    {
+        
+
+        $sql = "UPDATE user SET name='$this->name', surname='$this->surname', credits='$this->credits' "
+            . "WHERE id=$this->id";
+       
+        $result = Self::$conn->query($sql);
+
+        if ($result = Self::$conn->query($sql)) {
+
+            return $this;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteFromDB()
+    {
+        
+        $safe_id = Self::$conn->real_escape_string($this->id);
+
+        $sql = "DELETE FROM user WHERE id=$safe_id";
+        if ($result = Self::$conn->query($sql)) {
+            $this->address_id = null;
+            $this->name = null;
+            $this->surname = null;
+            $this->credits = null;
+            $this->pass = null;
+            $this->id = -1;
+            
+            return true;
+            
+        } else {
+            
+            return false;
+            
+        }
+    }
+
+    public static function loadAllFromDB() {
+        $sql = "SELECT * FROM user";
+
+        if ($result = Self::$conn->query($sql)) {
+            foreach ($result as $key => $value) {
+                $row[$key] = $value;
+            }
+            return $row;
+        }else {
+            return false;
+        }
+    }
+
 }
-
-
-
-
-
- ?>
